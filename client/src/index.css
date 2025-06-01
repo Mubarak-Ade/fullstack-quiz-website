@@ -1,1 +1,15 @@
+@import url('./font.css');
 @import 'tailwindcss';
+
+@theme {
+	--font-alata: "Alata";
+	--font-lora: "Lora";
+	--font-montserrat: "Montserrat";
+	--font-cardo: "Cardo";
+	--font-opensans: "OpenSans";
+	--font-poppins: "Poppins";
+	--font-pacifico: "Pacifico";
+	--font-montserrat-alt: "MontserratAlt";
+	--font-sourgummy: 'SourGummy';
+	--font-ubuntu: "Ubuntu"
+}

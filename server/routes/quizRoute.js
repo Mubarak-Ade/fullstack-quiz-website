@@ -9,7 +9,7 @@ router.post("/create", requireAuth, createQuiz)
 router.get("/", getQuizzes)
 // router.get("?categories=Math", getQuizzes)
 router.get("/:id", getQuizById)
-router.get("/:id/question", getQuestionById)
+router.get("/:quizId/question/:questionId", getQuestionById)
 router.post("/:id/submit", requireAuth, submitQuiz)
 
 export default router;

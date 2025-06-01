@@ -1,11 +1,11 @@
 // Path: server/routes/resultRoute.js
 import express from 'express'
-import { Result} from '../controllers/resultController.js'
+import { getResult, getSingleResult} from '../controllers/resultController.js'
 import requireAuth from '../middleware/requireAuth.js'
 
 const router = express.Router()
 
-router.get("/results", getQuizById)
-router.get("/results/:id/", getQuestionById)
+router.get("/", requireAuth, getResult)
+router.get("/:id", getSingleResult)
 
 export default router;

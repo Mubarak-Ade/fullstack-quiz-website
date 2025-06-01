@@ -44,16 +44,24 @@ export const getQuizById = async (req, res) => {
 }
 
 export const getQuestionById = async (req, res) => {
-    const { id } = req.params
+    const { quizId, questionId } = req.params
 
     try {
-        const quiz = await Quiz.findById(id)
+        const quiz = await Quiz.findById(quizId)
 
-        quiz.questions = quiz.questions.map((q) => {
-            const { correctAnswer, ...rest } = q
-            return rest
-        })
-        res.status(200).json(quiz.questions)
+        if (!quiz) {
+            return res.status(404).json({message: "Question not found in any quiz"})
+        }
+
+        const question = quiz.questions.id(questionId)
+
+        if (!question) {
+            return res.status(404).json({message: "Question not found"})
+        }
+
+        const {correctAnswer, ...questionData} = question.toObject()
+
+        res.status(200).json(questionData)
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
@@ -86,9 +94,9 @@ export const submitQuiz = async (req, res) => {
             user: req.user.id,
             quiz: quiz._id,
             score,
-            total, 
-            percentage, 
-            answers, 
+            total,
+            percentage,
+            answers,
             submittedAt: new Date()
         })
         await result.populate("user", "username")
