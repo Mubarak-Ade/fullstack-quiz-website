@@ -2,20 +2,27 @@
 /*                    This handle all the routes in the app                   */
 /* -------------------------------------------------------------------------- */
 
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "../component/Layout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import QuizPage from "../pages/QuizPage";
-import Result from "../pages/Result";
-import Dashboard from "../pages/Dashboard";
-import Loading from "../utils/Animation/loading";
+import QuizPage from "../pages/Quiz/QuizPage";
+import Result from "../pages/Quiz/Result";
+import Dashboard from "../pages/Dashboard/Admin/AdminDashboard";
 import PrivateRoute from "./PrivateRoute";
-import QuizList from "../pages/QuizList";
-import Quizzes from "../pages/Quizzes";
-import QuizRoutes from "./QuizRoutes";
+import QuizList from "../pages/Quiz/QuizList";
+import QuizTaking from "../pages/Quiz/QuizTaking";
+import CreateQuiz from "../component/dashboard/createQuiz/CreateQuiz";
+import DashboardLayout from "../component/dashboard/UserDashboardLayout";
+import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
+import UsersPage from "../pages/Dashboard/Admin/UsersPage";
+import ResultPage from "../pages/Dashboard/Admin/ResultPage";
+import SettingPage from "../pages/Dashboard/Admin/SettingPage";
+import AdminRoute from "./AdminRoute";
+import UserDashboardLayout from "../component/dashboard/UserDashboardLayout";
+import AdminDashboardLayout from "../component/dashboard/AdminDashboardLayout";
+import UserDashboard from "../pages/Dashboard/User/UserDashboard";
 
 const AppRoutes = () => {
     return (
@@ -28,32 +35,37 @@ const AppRoutes = () => {
                     {/* Login Page Route */}
                     <Route path="/register" element={<Register />} />
                     {/* Reggister Page Route */}
-                    <Route path="/quiz" element={<QuizPage/>} />
-                    <Route
-                        element={
-                            <PrivateRoute>
-                                <QuizRoutes />
-                            </PrivateRoute>
-                        }
-                    >
-                        <Route path="/:id" element={<QuizList/>} />
+                    <Route path="/quizzes" element={<QuizPage />} />
+                    <Route path="/quiz/:id" element={<QuizList />} />
+                    <Route path="/quiz/:id/start" element={<QuizTaking />} />
+                    <Route path="/quiz/:id/result" element={<Result />} />
+
+                    {/* DASHBOARD ROUTE */}
+                    <Route element={<PrivateRoute />}>
+                        <Route path="/user" element={<UserDashboardLayout />}>
+                            <Route path="quizzes" element={<CreateQuiz />} />
+                            <Route
+                                path="dashboard"
+                                element={<UserDashboard />}
+                            />
+                            <Route path="users" element={<UsersPage />} />
+                            <Route path="results" element={<ResultPage />} />
+                            <Route path="settings" element={<SettingPage />} />
+                        </Route>
                     </Route>
-                    <Route
-                        path="/result/:id"
-                        element={
-                            <PrivateRoute>
-                                <Result />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path="/dashboard"
-                        element={
-                            <PrivateRoute>
-                                <Dashboard />
-                            </PrivateRoute>
-                        }
-                    />
+
+                    <Route element={<PrivateRoute><AdminRoute /></PrivateRoute>}>
+                        <Route path="/admin" element={<AdminDashboardLayout />}>
+                            <Route
+                                path="dashboard"
+                                element={<AdminDashboard />}
+                            />
+                            <Route path="quizzes" element={<CreateQuiz />} />
+                            <Route path="users" element={<UsersPage />} />
+                            <Route path="results" element={<ResultPage />} />
+                            <Route path="settings" element={<SettingPage />} />
+                        </Route>
+                    </Route>
                 </Route>
             </Routes>
         </>
