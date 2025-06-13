@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as Fa from "react-icons/fa6";
 import Logo from "../assets/logos.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { hover, motion } from "framer-motion";
 import { HeaderVariant } from "../utils/Animation/variant/IntroAnimationVariant";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ const Navbar = () => {
     const handleLogout = () => {
         dispatch(logOut());
         setDisplay(false);
+        <Navigate to="/login" />
     };
 
     return (
@@ -26,7 +27,7 @@ const Navbar = () => {
             transition={{
                 duration: 1,
             }}
-            className="bg-green-100 w-full px-10 py-2.5 border-b border-slate-200 shadow-xs flex justify-between items-center"
+            className="bg-teal-700/40 w-full px-10 py-2.5 border-b border-slate-200 shadow-xs flex justify-between items-center"
         >
             <Link to="/">
                 <div className="flex gap-4 justify-center items-center">
@@ -43,7 +44,7 @@ const Navbar = () => {
             <nav className="flex items-center justify-center gap-15 font-alata text-green-800">
                 <ul className="flex gap-5">
                     <Link to="/">Home</Link>
-                    <Link to="/quiz">Quiz</Link>
+                    <Link to="/quizzes">Quiz</Link>
                     <Link to="/result">Result</Link>
                 </ul>
                 {user ? (
@@ -63,7 +64,7 @@ const Navbar = () => {
                         >
                             <Fa.FaUser />
                         </motion.span>
-                        <Link to="/dashboard" className="p-2">
+                        <Link to={user.role === "admin" ? `/admin/dashboard` : `/user/dashboard`} className="p-2">
                             Dashboard
                         </Link>
                         {display && (

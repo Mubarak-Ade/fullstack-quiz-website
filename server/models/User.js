@@ -16,6 +16,15 @@ const userShema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	role: {
+		type: String,
+		enum: ['user', 'admin'],
+		default: 'user'	
+	},
+	isOnline: {
+		type: Boolean,
+		default: false
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now()
@@ -67,6 +76,9 @@ userShema.statics.login = async function (email, password) {
 	if (!match) {
 		throw new Error("incorrect password");
 	}
+
+	user.isOnline = true
+	await user.save()
 
 	return user
 }

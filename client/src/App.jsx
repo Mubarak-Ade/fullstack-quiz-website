@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Navbar from "./component/Navbar";
-import { Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import AppRoutes from "./routes/AppRoutes";
 import Loading from "./utils/Animation/loading";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,9 +22,9 @@ function App() {
 		}
 	}, []);
 	return (
-		<>
+		<BrowserRouter>
 			<AppRoutes/>
-		</>
+		</BrowserRouter>
 	);
 }
 export default App;

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 
-const PrivateRoute = ({children}) => {
+const PrivateRoute = () => {
 
 	const user = useSelector((state) => state.auth.user)
 	const navigate = useNavigate()
@@ -11,7 +11,7 @@ const PrivateRoute = ({children}) => {
 		JSON.parse(localStorage.getItem('user'))
 	}, []);	
 
-	return ( user ? children : navigate('/login') )
+	return ( user ? <Outlet /> : navigate('/login') )
 }
 
 export default PrivateRoute

@@ -1,5 +1,5 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "./reduxThunk";
+import { getAllQuiz, getUsers, loginUser, registerUser } from "./reduxThunk";
 
 const token = localStorage.getItem("token")
 const user = JSON.parse(localStorage.getItem("user"))
@@ -8,10 +8,12 @@ const authSlice = createSlice({
     name: 'auth',
 
     initialState: {
+        users: [],
         user: user || null,
         token: token || null,
         loading: false,
         error: null,
+        isLoggedIn: false
     },
     reducers: {
         setUser: (state, action) => {
@@ -48,6 +50,18 @@ const authSlice = createSlice({
             state.user = action.payload
         })
         .addCase(registerUser.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        })
+        .addCase(getUsers.pending, (state) => {
+            state.loading = true
+            state.error = null
+        })
+        .addCase(getUsers.fulfilled, (state, action) => {
+            state.loading = false
+            state.users = action.payload
+        })
+        .addCase(getUsers.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         })

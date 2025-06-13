@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { getAllQuiz, getQuizById } from "../features/auth/reduxThunk";
-import Loading from "../utils/Animation/loading";
+import { getAllQuiz, getQuizById } from "../../features/auth/reduxThunk";
+import Loading from "../../utils/Animation/loading";
 import { memo } from "react";
-import QuizCard from "../component/QuizCard";
+import QuizCard from "../../component/QuizCard";
 import { motion } from "framer-motion";
 
 const QuizList = memo(() => {

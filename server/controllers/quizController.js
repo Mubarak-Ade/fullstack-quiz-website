@@ -43,6 +43,20 @@ export const getQuizById = async (req, res) => {
     }
 }
 
+export const deleteQuizById = async (req, res) => {
+    const { id } = req.params
+    try {
+        const quiz = await Quiz.deleteOne({_id: id})
+
+        if (!quiz) {
+            return res.status(404).json({message: "Quiz not found"})
+        }
+        res.status(200).json(quiz)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
 export const getQuestionById = async (req, res) => {
     const { quizId, questionId } = req.params
 
@@ -106,4 +120,48 @@ export const submitQuiz = async (req, res) => {
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
+}
+
+export const getQuestions = async (req, res) => {
+    try {
+        const quizzes = await Quiz.find({}, "questions")
+
+        const allQuestions = quizzes.flatMap(quiz => quiz.questions)
+        res.status(200).json(allQuestions)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
+export const editQuestions = async (req, res) => {
+
+    const {quizId, questionId} = req.params
+    const updated = req.body
+
+    try {
+        const quizzes = await Quiz.findById(quizId)
+
+        if (!quizzes) {
+            res.status(404).json('Quiz not found')
+        }
+
+        const questions = quizzes.questions.id(questionId)
+        
+        if (!questions) {
+            res.status(404).json('Questions not found')
+        }
+
+        Object.assign(questions, updated)
+
+        await quizzes.save()
+
+        res.status(200).json(quizzes)
+        
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
+export const deleteQuestion = async (req, res) => {
+    
 }

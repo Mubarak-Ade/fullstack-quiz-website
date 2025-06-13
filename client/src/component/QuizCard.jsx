@@ -1,9 +1,18 @@
 import React from "react";
 import * as Fa from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const QuizCard = ({ id, title, category, questions, timelimit }) => {
+
+    // const questionId = questions[0]._id
+
+    const navigate  = useNavigate()
+
+    const handleStartButton = () => {
+        navigate(`/quiz/${id}/start`)
+    }
+
     return (
         <div className="bg-teal-800 text-white rounded-2xl shadow-2xl shadow-green-600 h-50 grid grid-cols-1 px-5 py-2.5 max-w-200 items-center center">
             <div>
@@ -25,6 +34,7 @@ const QuizCard = ({ id, title, category, questions, timelimit }) => {
                     scale: 0.8,
                 }}
                 className="bg-teal-600 text-white p-2 rounded-2xl cursor-pointer font-sourgummy col-start-2 col-end-3 h-10 w-40 mt-10"
+                onClick={handleStartButton}
             >
                 Start Quiz
             </motion.button>
